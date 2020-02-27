@@ -62,11 +62,12 @@ extension CategoryViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.performSegue(withIdentifier: Constants.categoryToItemSegue, sender: self)
     }
-}
 
-// MARK:- Perform Segue
-extension CategoryViewController {
-
-    override func performSegue(withIdentifier identifier: String, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? ItemViewController {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.selectedItemCategory = categoryArray[indexPath.row]
+            }
+        }
     }
 }

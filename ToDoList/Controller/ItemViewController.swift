@@ -11,13 +11,14 @@ import UIKit
 class ItemViewController: UITableViewController {
 
     var itemArray = [String]()
+    var selectedItemCategory = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
-        
+        showAlert()
     }
 }
 

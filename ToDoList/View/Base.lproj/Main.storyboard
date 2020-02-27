@@ -20,7 +20,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ad8-gb-8wo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="690" y="-28"/>
+            <point key="canvasLocation" x="526" y="-24"/>
         </scene>
         <!--ToDoList-->
         <scene sceneID="Imh-ut-PdB">
@@ -58,7 +58,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uZP-GH-jng" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1447" y="-24"/>
+            <point key="canvasLocation" x="1377" y="-24"/>
         </scene>
         <!--Items-->
         <scene sceneID="mQn-HJ-Pkm">
@@ -93,7 +93,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FZS-NH-DVm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2163" y="-25"/>
+            <point key="canvasLocation" x="2317" y="-24"/>
         </scene>
     </scenes>
 </document>
