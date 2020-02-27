@@ -11,6 +11,8 @@ import Foundation
 struct Constants {
 
     static let categoryCellIdentifier = "categoryCell"
+    static let itemCellIdentifier = "itemCell"
+    static let categoryToItemSegue = "goToItems"
 
     struct Alert {
         static let alertTitle = "Add Category"

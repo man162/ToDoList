@@ -22,20 +22,6 @@ class CategoryViewController: UITableViewController {
 
 }
 
-// MARK:- TableView Data Source
-extension CategoryViewController {
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryArray.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.categoryCellIdentifier, for: indexPath)
-        cell.textLabel?.text = categoryArray[indexPath.row]
-        return cell
-    }
-}
-
 // MARK:- UIAlertViewController
 extension CategoryViewController {
 
@@ -53,5 +39,34 @@ extension CategoryViewController {
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+// MARK:- TableView Data Source
+extension CategoryViewController {
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return categoryArray.count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.categoryCellIdentifier, for: indexPath)
+        cell.textLabel?.text = categoryArray[indexPath.row]
+        return cell
+    }
+}
+
+// MARK:- TableView Delegate
+extension CategoryViewController {
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: Constants.categoryToItemSegue, sender: self)
+    }
+}
+
+// MARK:- Perform Segue
+extension CategoryViewController {
+
+    override func performSegue(withIdentifier identifier: String, sender: Any?) {
     }
 }
