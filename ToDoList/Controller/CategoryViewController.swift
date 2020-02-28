@@ -7,13 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 class CategoryViewController: UITableViewController {
 
-    var categoryArray = [String]()
+    var categoryArray = [Category]()
+    var context = PersistenceService.context
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadData()
     }
 
     @IBAction func addButtonPressed(_ sender: Any) {
@@ -30,7 +33,10 @@ extension CategoryViewController {
         var textField = UITextField()
         let alert = UIAlertController(title: Constants.Alert.alertTitle , message: "", preferredStyle: .alert)
         let action = UIAlertAction(title:  Constants.Alert.actionTitle, style: .default) { (action) in
-            self.categoryArray.append(textField.text!)
+            let category = Category(context: self.context)
+            category.name = textField.text!
+            self.categoryArray.append(category)
+            self.saveData()
             self.tableView.reloadData()
         }
         alert.addTextField { (alertTextField) in
@@ -51,7 +57,7 @@ extension CategoryViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.categoryCellIdentifier, for: indexPath)
-        cell.textLabel?.text = categoryArray[indexPath.row]
+        cell.textLabel?.text = categoryArray[indexPath.row].name
         return cell
     }
 }
@@ -66,8 +72,26 @@ extension CategoryViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? ItemViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
-                destinationVC.selectedItemCategory = categoryArray[indexPath.row]
+                destinationVC.selectedItemCategory = categoryArray[indexPath.row].name!
             }
         }
     }
 }
+
+// MARK:- CRUD operation
+extension CategoryViewController {
+
+    func saveData() {
+        PersistenceService.saveContext()
+    }
+
+    func loadData() {
+        let request: NSFetchRequest<Category> =  Category.fetchRequest()
+        do {
+         categoryArray = try context.fetch(request)
+        } catch {
+            print("Error occured while reteriving data \(error)")
+        }
+    }
+}
+
