@@ -88,17 +88,36 @@ extension ItemViewController {
         PersistenceService.saveContext()
     }
 
-    func loadData(request: NSFetchRequest<Item> = Item.fetchRequest()) {
+    func loadData(request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
 
-        let categoryName = selectedItemCategory!.name!
-        let predicate = NSPredicate(format: "parentCategory MATCHES %@", categoryName)
-        request.predicate = predicate
-
+        //let categoryName = selectedItemCategory!.name!
+        //let predicate = NSPredicate(format: "parentCategory MATCHES %@", categoryName)
+        if let addPredicate = predicate {
+            request.predicate = addPredicate
+        }
         do {
             itemArray = try context.fetch(request)
         } catch {
             print("Error occured while reteriving data \(error)")
         }
-
+        tableView.reloadData()
     }
+}
+
+extension ItemViewController: UISearchBarDelegate {
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let text  = searchBar.text
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", text!)
+        loadData(predicate: predicate)
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+
 }
