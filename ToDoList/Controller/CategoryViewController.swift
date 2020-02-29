@@ -12,7 +12,7 @@ import CoreData
 class CategoryViewController: UITableViewController {
 
     var categoryArray = [Category]()
-    var context = PersistenceService.context
+    let context = PersistenceService.context
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +72,7 @@ extension CategoryViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? ItemViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
-                destinationVC.selectedItemCategory = categoryArray[indexPath.row].name!
+                destinationVC.selectedItemCategory = categoryArray[indexPath.row]
             }
         }
     }

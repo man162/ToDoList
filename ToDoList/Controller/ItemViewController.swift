@@ -12,13 +12,16 @@ import CoreData
 class ItemViewController: UITableViewController {
 
     var itemArray = [Item]()
-    var context = PersistenceService.context
+    let context = PersistenceService.context
 
-    var selectedItemCategory = ""
+    var selectedItemCategory: Category? {
+        didSet {
+            loadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
@@ -36,6 +39,7 @@ extension ItemViewController {
             let item = Item(context: self.context)
             item.title = textField.text!
             item.done = false
+            item.parentCategory = self.selectedItemCategory
             self.itemArray.append(item)
             self.saveData()
             self.tableView.reloadData()
@@ -58,7 +62,9 @@ extension ItemViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.itemCellIdentifier, for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row].title
+        let item = itemArray[indexPath.row]
+        cell.textLabel?.text = item.title
+        cell.accessoryType = item.done ? .checkmark : .none
         return cell
     }
 }
@@ -68,6 +74,10 @@ extension ItemViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = itemArray[indexPath.row]
+        item.done = !item.done
+        saveData()
+        tableView.reloadData()
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -78,10 +88,14 @@ extension ItemViewController {
         PersistenceService.saveContext()
     }
 
-    func loadData() {
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
+    func loadData(request: NSFetchRequest<Item> = Item.fetchRequest()) {
+
+        let categoryName = selectedItemCategory!.name!
+        let predicate = NSPredicate(format: "parentCategory MATCHES %@", categoryName)
+        request.predicate = predicate
+
         do {
-          itemArray = try context.fetch(request)
+            itemArray = try context.fetch(request)
         } catch {
             print("Error occured while reteriving data \(error)")
         }
