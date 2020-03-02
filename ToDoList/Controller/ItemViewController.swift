@@ -90,10 +90,13 @@ extension ItemViewController {
 
     func loadData(request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
 
-        //let categoryName = selectedItemCategory!.name!
-        //let predicate = NSPredicate(format: "parentCategory MATCHES %@", categoryName)
-        if let addPredicate = predicate {
-            request.predicate = addPredicate
+        let categoryName = selectedItemCategory!.name!
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", categoryName)
+        if let searchPredicate = predicate {
+            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [searchPredicate, categoryPredicate])
+            request.predicate = compoundPredicate
+        } else {
+            request.predicate = categoryPredicate
         }
         do {
             itemArray = try context.fetch(request)
@@ -104,6 +107,7 @@ extension ItemViewController {
     }
 }
 
+// MARK:- SearchBar Delegate
 extension ItemViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
