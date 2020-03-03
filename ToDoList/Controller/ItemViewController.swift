@@ -8,8 +8,9 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
-class ItemViewController: UITableViewController {
+class ItemViewController: SwipeTableViewController {
 
     var itemArray = [Item]()
     let context = PersistenceService.context
@@ -61,7 +62,7 @@ extension ItemViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.itemCellIdentifier, for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         let item = itemArray[indexPath.row]
         cell.textLabel?.text = item.title
         cell.accessoryType = item.done ? .checkmark : .none
