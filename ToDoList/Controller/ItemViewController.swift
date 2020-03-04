@@ -23,10 +23,17 @@ class ItemViewController: SwipeTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = 80
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
         showAlert()
+    }
+
+    override func deleteSwipeTableCell(from indexPath: IndexPath) {
+        let itemToRemove = itemArray.remove(at: indexPath.row)
+        context.delete(itemToRemove)
+        saveData()
     }
 }
 
@@ -35,7 +42,7 @@ extension ItemViewController {
 
     func showAlert() {
         var textField = UITextField()
-        let alert = UIAlertController(title: Constants.Alert.alertTitle , message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: Constants.Alert.alertItemTitle , message: "", preferredStyle: .alert)
         let action = UIAlertAction(title:  Constants.Alert.actionTitle, style: .default) { (action) in
             let item = Item(context: self.context)
             item.title = textField.text!

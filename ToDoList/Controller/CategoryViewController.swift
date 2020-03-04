@@ -39,7 +39,7 @@ extension CategoryViewController {
     func showAlert() {
         
         var textField = UITextField()
-        let alert = UIAlertController(title: Constants.Alert.alertTitle , message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: Constants.Alert.alertCategoryTitle , message: "", preferredStyle: .alert)
         let action = UIAlertAction(title:  Constants.Alert.actionTitle, style: .default) { (action) in
             let category = Category(context: self.context)
             category.name = textField.text!

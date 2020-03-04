@@ -15,7 +15,8 @@ struct Constants {
     static let categoryToItemSegue = "goToItems"
 
     struct Alert {
-        static let alertTitle = "Add Category"
+        static let alertCategoryTitle = "Add Category"
+        static let alertItemTitle = "Add Category"
         static let actionTitle = "Done"
         static let alertPlaceholder = "Enter Category Name"
     }
