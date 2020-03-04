@@ -23,7 +23,6 @@ class ItemViewController: SwipeTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = 80
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {

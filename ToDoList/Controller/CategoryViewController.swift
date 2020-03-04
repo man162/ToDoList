@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import SwipeCellKit
+import ChameleonFramework
 
 class CategoryViewController: SwipeTableViewController {
     
@@ -18,7 +19,6 @@ class CategoryViewController: SwipeTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
-        tableView.rowHeight = 80
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
@@ -43,6 +43,7 @@ extension CategoryViewController {
         let action = UIAlertAction(title:  Constants.Alert.actionTitle, style: .default) { (action) in
             let category = Category(context: self.context)
             category.name = textField.text!
+            category.color = UIColor.randomFlat().hexValue()
             self.categoryArray.append(category)
             self.saveData()
             self.tableView.reloadData()
@@ -65,7 +66,9 @@ extension CategoryViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
-        cell.textLabel?.text = categoryArray[indexPath.row].name
+        let category = categoryArray[indexPath.row]
+        cell.textLabel?.text = category.name
+        cell.backgroundColor = UIColor(hexString: (category.color ?? "#FFFFFF"))
         return cell
     }
 }
